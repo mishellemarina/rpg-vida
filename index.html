@@ -87,17 +87,17 @@
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      "type": "service_account",
-      "project_id": "rpg-dmon",
-      "private_key_id": "bc480c9e3fe23520dc2444a800cbd1c99c0555bb",
-      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDqOFitKsUP6zng\nj+L/VOr3FXh5qsmB4k1k5YyweSaiBnsclHS97xKPMikLaRNisKEHfqzpQK/M9Ax8\nRSLfO7nYRMbOGjldYx8YdeUnLFnMPSg1Qs/rQJVuxHO8T0ivoO3Jcn6+jD8Kcbes\nxvq3cqkSlLd+PpYyIWsqJvhMJTVOjwST9cxUh2oY4MRF5SqBdof4WM0Fjn8ZZ6Gx\nyNwhenOUzNGZMQN2vqBzgfX+3HHGV95t9TQKZHt+yMu5KKFpDJEFDtzlo9uGmmlF\n8Y+rb5UoCVpJAkBAdiatavwSojGS2Ce5fPbVPhXs+9DVVBO6Gr5xh/6BqoGCpYXf\n2+e3atZLAgMBAAECggEANHkkMMOMu6jE4jEKN470Rx/ZylQ/aehj0290ChNSWuld\nyoTd9LFrdIZV2LcVPz54DSBNp8I0wJOKeorYqa+NTsz1xzXr1SbAUDAVgyW2BoJL\nEEekIj3pXJQJo84VaDeDHmcWyyTLeNEKR9yaTeATzdRgmZl298sx4ZMyfIi3fR4y\nuwH8+sepwDCirTtnxXY2nVL1gAVYjcKStnGDJ3XEL/OGx1ArUYCZOPLQlaAYgzJ1\ns9F5zV+nKO3rYQkDPIWNRxbYkg0O9wzOqE1UcdPVaVdWo7qCnaB2Q4/0/R/jpIo/\nXWHrOZNy86OGsqmU/KLHi2Lp++PqhOZxjRGI3ENtuQKBgQD4VVCyZ/H3eYf9awOu\nkVqlVqizDCqBS39JYwiSBTouqWf73eXy0mKz9L98Q4UlMOlpn2LYsntXnTTuhaai\nqaaYzMdTugq8hazcJKKEGbzku8ibuFyzGlbkwDAOntc/4ewasWuOmRezEn+QTvP1\n72ZbpzMYgMhQ/suE8fSOvRSNwwKBgQDxc30hTbLBtGk/RLbWF3Yswkhe5d+9e2q/\nSF/cCgPBh2D8fng4ovc2Dj8NnSpUfFeJ7OpcjJE/AEEeElRaNMVEnudo7vaRTTaT\nwzMeGb59LR0h3DyVEjEUKFDlSn1ZuPqy1ZG2+8YzlWw/uDXpHVzdOJrGPS2TDmV/\nvTaEBX/k2QKBgDRXHwQLPoePeOcjyAniHv3cLwBV3xuTQwe/tM26BlJRaFZApbex\nOhZ9zmIthQGatoeJjXbo33BO9RoU11NPeIqaFqUCAENN1Wos2ogHOLXpElYn3Hnv\nYkMicr6SIgIX5wCVRnsurz0R+Ar9aRP72lIVAoL2mcHgghrKOGZhWdSrAoGAbtP2\nAc1qWeN30+S0j/zg75aWJYkadB0sWHTeG2A1bSW47O0YPdb/5j4Pzy3u+izA+bxX\nrveOy/5P5X/AXE+QpPjTe6UEZJmujZCx7AUhHNASaTJwVHSvNnNy/mx8sSxpVqEV\na4qR5aeWsoDZrhEeSSTsVkZKnw+io0m0tlDX7bECgYBAk+S8BaWRTvVSSkR7/IzP\nn+199DtOpSBU1eP6CQ/GfVf2b4SyAiduWP8OxiDHbmjZIVa1/sqwzCiKsYVHAm4j\nXB64798lzyGN4Q826OWOTOSdnwFvPkpyFGbkMzd+ByDjRujZzjpTUEVe1WKBSCMk\nPtrhez6DEhpa5+v5qi+A5g==\n-----END PRIVATE KEY-----\n",
-      "client_email": "firebase-adminsdk-fbsvc@rpg-dmon.iam.gserviceaccount.com",
-      "client_id": "114715894476114885543",
-      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-      "token_uri": "https://oauth2.googleapis.com/token",
-      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40rpg-dmon.iam.gserviceaccount.com",
-      "universe_domain": "googleapis.com"
+      type: "service_account",
+      project_id: "rpg-dmon",
+      private_key_id: "bc480c9e3fe23520dc2444a800cbd1c99c0555bb",
+      private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDqOFitKsUP6zng\nj+L/VOr3FXh5qsmB4k1k5YyweSaiBnsclHS97xKPMikLaRNisKEHfqzpQK/M9Ax8\nRSLfO7nYRMbOGjldYx8YdeUnLFnMPSg1Qs/rQJVuxHO8T0ivoO3Jcn6+jD8Kcbes\nxvq3cqkSlLd+PpYyIWsqJvhMJTVOjwST9cxUh2oY4MRF5SqBdof4WM0Fjn8ZZ6Gx\nyNwhenOUzNGZMQN2vqBzgfX+3HHGV95t9TQKZHt+yMu5KKFpDJEFDtzlo9uGmmlF\n8Y+rb5UoCVpJAkBAdiatavwSojGS2Ce5fPbVPhXs+9DVVBO6Gr5xh/6BqoGCpYXf\n2+e3atZLAgMBAAECggEANHkkMMOMu6jE4jEKN470Rx/ZylQ/aehj0290ChNSWuld\nyoTd9LFrdIZV2LcVPz54DSBNp8I0wJOKeorYqa+NTsz1xzXr1SbAUDAVgyW2BoJL\nEEekIj3pXJQJo84VaDeDHmcWyyTLeNEKR9yaTeATzdRgmZl298sx4ZMyfIi3fR4y\nuwH8+sepwDCirTtnxXY2nVL1gAVYjcKStnGDJ3XEL/OGx1ArUYCZOPLQlaAYgzJ1\ns9F5zV+nKO3rYQkDPIWNRxbYkg0O9wzOqE1UcdPVaVdWo7qCnaB2Q4/0/R/jpIo/\nXWHrOZNy86OGsqmU/KLHi2Lp++PqhOZxjRGI3ENtuQKBgQD4VVCyZ/H3eYf9awOu\nkVqlVqizDCqBS39JYwiSBTouqWf73eXy0mKz9L98Q4UlMOlpn2LYsntXnTTuhaai\nqaaYzMdTugq8hazcJKKEGbzku8ibuFyzGlbkwDAOntc/4ewasWuOmRezEn+QTvP1\n72ZbpzMYgMhQ/suE8fSOvRSNwwKBgQDxc30hTbLBtGk/RLbWF3Yswkhe5d+9e2q/\nSF/cCgPBh2D8fng4ovc2Dj8NnSpUfFeJ7OpcjJE/AEEeElRaNMVEnudo7vaRTTaT\nwzMeGb59LR0h3DyVEjEUKFDlSn1ZuPqy1ZG2+8YzlWw/uDXpHVzdOJrGPS2TDmV/\nvTaEBX/k2QKBgDRXHwQLPoePeOcjyAniHv3cLwBV3xuTQwe/tM26BlJRaFZApbex\nOhZ9zmIthQGatoeJjXbo33BO9RoU11NPeIqaFqUCAENN1Wos2ogHOLXpElYn3Hnv\nYkMicr6SIgIX5wCVRnsurz0R+Ar9aRP72lIVAoL2mcHgghrKOGZhWdSrAoGAbtP2\nAc1qWeN30+S0j/zg75aWJYkadB0sWHTeG2A1bSW47O0YPdb/5j4Pzy3u+izA+bxX\nrveOy/5P5X/AXE+QpPjTe6UEZJmujZCx7AUhHNASaTJwVHSvNnNy/mx8sSxpVqEV\na4qR5aeWsoDZrhEeSSTsVkZKnw+io0m0tlDX7bECgYBAk+S8BaWRTvVSSkR7/IzP\nn+199DtOpSBU1eP6CQ/GfVf2b4SyAiduWP8OxiDHbmjZIVa1/sqwzCiKsYVHAm4j\nXB64798lzyGN4Q826OWOTOSdnwFvPkpyFGbkMzd+ByDjRujZzjpTUEVe1WKBSCMk\nPtrhez6DEhpa5+v5qi+A5g==\n-----END PRIVATE KEY-----\n",
+      client_email: "firebase-adminsdk-fbsvc@rpg-dmon.iam.gserviceaccount.com",
+      client_id: "114715894476114885543",
+      auth_uri: "https://accounts.google.com/o/oauth2/auth",
+      token_uri: "https://oauth2.googleapis.com/token",
+      auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+      client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40rpg-dmon.iam.gserviceaccount.com",
+      universe_domain: "googleapis.com"
     };
 
     const app = initializeApp(firebaseConfig);
