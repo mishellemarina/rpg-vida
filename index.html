@@ -1,239 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tu Vida, Tu Juego - RPG</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Vida, Tu Juego - Registro/Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-      text-align: center;
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 30px;
     }
-
-    header {
-      background: #222;
-      color: white;
-      padding: 2em 1em;
-    }
-
-    h1 {
-      margin: 0 0 0.5em 0;
-    }
-
-    #auth-section {
-      margin-top: 1em;
-    }
-
-    #auth-section input,
-    #auth-section button {
-      padding: 0.5em;
-      margin: 0.2em;
-      border-radius: 5px;
-      border: none;
-    }
-
-    #auth-section input {
-      width: 200px;
-    }
-
-    #auth-section button {
-      background-color: #6a5acd;
-      color: white;
-      cursor: pointer;
-    }
-
-    main {
-      padding: 2em;
-    }
-
-    section {
+    .auth-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
       background: white;
-      margin: 1em auto;
-      padding: 1.5em;
       border-radius: 10px;
-      max-width: 500px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    .counter {
-      font-size: 2em;
-      margin: 0.5em 0;
-    }
-
-    .actions button {
-      margin: 0.5em;
-      padding: 0.6em 1.2em;
-      border: none;
-      background: #6a5acd;
-      color: white;
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
       border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #2c3e50;
+      color: white;
+      font-weight: bold;
       cursor: pointer;
+    }
+    button:hover {
+      background: #1a252f;
+    }
+    .toggle {
+      text-align: center;
+      margin-top: 10px;
+      cursor: pointer;
+      color: #3498db;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🎮 Tu Vida, Tu Juego</h1>
-    <p>Gamifica tu vida estilo RPG</p>
-    <div id="auth-section">
-      <input type="email" id="email" placeholder="Correo electrónico" required />
-      <input type="password" id="password" placeholder="Contraseña" required />
-      <button id="login-btn">Iniciar Sesión</button>
-      <button id="signup-btn">Registrarse</button>
-      <button id="logout-btn" style="display:none;">Cerrar Sesión</button>
-    </div>
-  </header>
+  <div class="auth-container">
+    <h2 id="form-title">Crear cuenta</h2>
+    <input type="email" id="email" placeholder="Correo electrónico" required>
+    <input type="password" id="password" placeholder="Contraseña" required>
+    <button id="submit-button">Registrarse</button>
+    <div class="toggle" id="toggle-form">¿Ya tienes cuenta? Inicia sesión</div>
+    <p id="auth-message" style="color: red;"></p>
+  </div>
 
-  <main>
-    <section>
-      <h2>⭐ Experiencia</h2>
-      <div class="counter" id="xp">0</div>
-      <div class="actions">
-        <button onclick="addXP()">+10 XP</button>
-        <button onclick="removeXP()">-10 XP</button>
-      </div>
-    </section>
-
-    <section>
-      <h2>❤️ Salud</h2>
-      <div class="counter" id="hp">100</div>
-      <div class="actions">
-        <button onclick="addHP()">+10 HP</button>
-        <button onclick="removeHP()">-10 HP</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // 🔐 Sustituye con los datos de tu proyecto
-    const SUPABASE_URL = 'https://tyduhkarprlqxcohmuau.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5ZHVoa2FycHJscXhjb2htdWF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NzY3MjQsImV4cCI6MjA2MDA1MjcyNH0.ZwHUsGu6W49bvFtl5ocUOZ-3_KIBQ6n2ksJNyPjRkvE';
+    const supabase = supabase.createClient('https://tyduhkarprlqxcohmuau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5ZHVoa2FycHJscXhjb2htdWF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NzY3MjQsImV4cCI6MjA2MDA1MjcyNH0.ZwHUsGu6W49bvFtl5ocUOZ-3_KIBQ6n2ksJNyPjRkvE'); // Reemplaza aquí
 
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let isLogin = false;
 
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const loginBtn = document.getElementById('login-btn');
-    const signupBtn = document.getElementById('signup-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-
-    let user = null;
-    let gameData = { xp: 0, hp: 100 };
-
-    // 🧠 Guardar en Supabase
-    async function saveData() {
-      if (!user) return;
-      const { error } = await supabase
-        .from('game_data')
-        .upsert({ user_id: user.id, xp: gameData.xp, hp: gameData.hp });
-      if (error) console.error('Error al guardar:', error.message);
-    }
-
-    // 📥 Cargar desde Supabase
-    async function loadData() {
-      if (!user) return;
-      const { data, error } = await supabase
-        .from('game_data')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-      if (data) {
-        gameData = data;
-        updateUI();
-      } else {
-        // Si no existe, crearlo
-        await saveData();
-      }
-    }
-
-    function updateUI() {
-      document.getElementById('xp').innerText = gameData.xp;
-      document.getElementById('hp').innerText = gameData.hp;
-    }
-
-    function addXP() {
-      gameData.xp += 10;
-      updateUI();
-      saveData();
-    }
-
-    function removeXP() {
-      gameData.xp = Math.max(0, gameData.xp - 10);
-      updateUI();
-      saveData();
-    }
-
-    function addHP() {
-      gameData.hp += 10;
-      updateUI();
-      saveData();
-    }
-
-    function removeHP() {
-      gameData.hp = Math.max(0, gameData.hp - 10);
-      updateUI();
-      saveData();
-    }
-
-    // 🔑 Registro
-    signupBtn.addEventListener('click', async () => {
-      const { error } = await supabase.auth.signUp({
-        email: emailInput.value,
-        password: passwordInput.value,
-      });
-      if (error) {
-        alert('Error al registrarse: ' + error.message);
-      } else {
-        alert('¡Registrado! Verifica tu correo antes de iniciar sesión.');
-      }
+    document.getElementById('toggle-form').addEventListener('click', () => {
+      isLogin = !isLogin;
+      document.getElementById('form-title').textContent = isLogin ? 'Iniciar sesión' : 'Crear cuenta';
+      document.getElementById('submit-button').textContent = isLogin ? 'Iniciar sesión' : 'Registrarse';
+      document.getElementById('toggle-form').textContent = isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión';
     });
 
-    // 🔓 Inicio de sesión
-    loginBtn.addEventListener('click', async () => {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: emailInput.value,
-        password: passwordInput.value,
-      });
-      if (error) {
-        alert('Error: ' + error.message);
+    document.getElementById('submit-button').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      let result;
+      if (isLogin) {
+        result = await supabase.auth.signInWithPassword({ email, password });
       } else {
-        user = data.user;
-        loginBtn.style.display = 'none';
-        signupBtn.style.display = 'none';
-        logoutBtn.style.display = 'inline';
-        loadData();
+        result = await supabase.auth.signUp({ email, password });
       }
-    });
 
-    // 🚪 Cerrar sesión
-    logoutBtn.addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      user = null;
-      alert('Sesión cerrada');
-      loginBtn.style.display = 'inline';
-      signupBtn.style.display = 'inline';
-      logoutBtn.style.display = 'none';
-      gameData = { xp: 0, hp: 100 };
-      updateUI();
-    });
-
-    // 👀 Ver sesión actual
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        user = session.user;
-        loginBtn.style.display = 'none';
-        signupBtn.style.display = 'none';
-        logoutBtn.style.display = 'inline';
-        loadData();
+      if (result.error) {
+        document.getElementById('auth-message').textContent = result.error.message;
+      } else {
+        document.getElementById('auth-message').textContent = isLogin ? '¡Sesión iniciada!' : '¡Cuenta creada!';
+        // Aquí podrías redirigir a tu app principal o guardar sesión
+        // Por ejemplo: window.location.href = 'rpg.html';
       }
     });
   </script>
