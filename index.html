@@ -1,428 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Vida, Tu Juego - RPG</title>
-    <style>
-        :root {
-            --color-fuerza: #3498db;
-            --color-creatividad: #2ecc71;
-            --color-inteligencia: #9b59b6;
-            --color-social: #e74c3c;
-            --color-belleza: #e91e63;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 8px;
-        }
-        
-        h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            width: 200px;
-            margin: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        .stat-name {
-            font-weight: bold;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 1.5em;
-        }
-        
-        .progress-container {
-            height: 20px;
-            background: #ecf0f1;
-            border-radius: 10px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-        
-        .activities-container {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .activity-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        select, input, button {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-        
-        button {
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #1a252f;
-        }
-        
-        .activity-list {
-            border-top: 1px solid #eee;
-            margin-top: 20px;
-            padding-top: 20px;
-        }
-        
-        .activity-item {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .activity-info {
-            flex: 1;
-        }
-        
-        .activity-xp {
-            font-weight: bold;
-            color: #27ae60;
-        }
-        
-        .level-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .level-display {
-            font-size: 2em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .xp-display {
-            margin-top: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            .stats-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .stat-card {
-                width: 80%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tu Vida, Tu Juego - RPG</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      padding: 2em 1em;
+    }
+
+    h1 {
+      margin: 0 0 0.5em 0;
+    }
+
+    #auth-section {
+      margin-top: 1em;
+    }
+
+    #auth-section input,
+    #auth-section button {
+      padding: 0.5em;
+      margin: 0.2em;
+      border-radius: 5px;
+      border: none;
+    }
+
+    #auth-section input {
+      width: 200px;
+    }
+
+    #auth-section button {
+      background-color: #6a5acd;
+      color: white;
+      cursor: pointer;
+    }
+
+    main {
+      padding: 2em;
+    }
+
+    section {
+      background: white;
+      margin: 1em auto;
+      padding: 1.5em;
+      border-radius: 10px;
+      max-width: 500px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .counter {
+      font-size: 2em;
+      margin: 0.5em 0;
+    }
+
+    .actions button {
+      margin: 0.5em;
+      padding: 0.6em 1.2em;
+      border: none;
+      background: #6a5acd;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>🎮 Tu Vida, Tu Juego</h1>
-        <p>Un sistema RPG para gamificar tu vida</p>
-    </header>
-
-    <div class="level-container">
-        <div class="level-display">Nivel: <span id="nivel">1</span></div>
-        <div class="xp-display">XP: <span id="xp">0</span>/<span id="xp-next-level">100</span></div>
-        <div class="progress-container">
-            <div class="progress-bar" id="xp-bar" style="width: 0%; background-color: #27ae60;"></div>
-        </div>
+  <header>
+    <h1>🎮 Tu Vida, Tu Juego</h1>
+    <p>Gamifica tu vida estilo RPG</p>
+    <div id="auth-section">
+      <input type="email" id="email" placeholder="Correo electrónico" required />
+      <input type="password" id="password" placeholder="Contraseña" required />
+      <button id="login-btn">Iniciar Sesión</button>
+      <button id="signup-btn">Registrarse</button>
+      <button id="logout-btn" style="display:none;">Cerrar Sesión</button>
     </div>
+  </header>
 
-    <div class="stats-container">
-        <div class="stat-card" style="border-top: 5px solid var(--color-fuerza);">
-            <div class="stat-name">💪 Fuerza</div>
-            <div class="stat-value" id="fuerza">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="fuerza-bar" style="width: 0%; background-color: var(--color-fuerza);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-creatividad);">
-            <div class="stat-name">🎨 Creatividad</div>
-            <div class="stat-value" id="creatividad">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="creatividad-bar" style="width: 0%; background-color: var(--color-creatividad);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-inteligencia);">
-            <div class="stat-name">🧠 Inteligencia</div>
-            <div class="stat-value" id="inteligencia">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="inteligencia-bar" style="width: 0%; background-color: var(--color-inteligencia);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-social);">
-            <div class="stat-name">🗣️ Social</div>
-            <div class="stat-value" id="social">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="social-bar" style="width: 0%; background-color: var(--color-social);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-belleza);">
-            <div class="stat-name">🌟 Belleza</div>
-            <div class="stat-value" id="belleza">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="belleza-bar" style="width: 0%; background-color: var(--color-belleza);"></div>
-            </div>
-        </div>
-    </div>
+  <main>
+    <section>
+      <h2>⭐ Experiencia</h2>
+      <div class="counter" id="xp">0</div>
+      <div class="actions">
+        <button onclick="addXP()">+10 XP</button>
+        <button onclick="removeXP()">-10 XP</button>
+      </div>
+    </section>
 
-    <div class="activities-container">
-        <h2>📋 Registrar Actividad</h2>
-        <form id="activity-form" class="activity-form">
-            <div class="form-group">
-                <label for="activity-name">Nombre de la actividad</label>
-                <input type="text" id="activity-name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="activity-stat">Estadística</label>
-                <select id="activity-stat" required>
-                    <option value="fuerza">💪 Fuerza</option>
-                    <option value="creatividad">🎨 Creatividad</option>
-                    <option value="inteligencia">🧠 Inteligencia</option>
-                    <option value="social">🗣️ Social</option>
-                    <option value="belleza">🌟 Belleza</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="activity-difficulty">Dificultad</label>
-                <select id="activity-difficulty" required>
-                    <option value="10">Fácil (10 XP)</option>
-                    <option value="20">Medio (20 XP)</option>
-                    <option value="30">Difícil (30 XP)</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="activity-date">Fecha</label>
-                <input type="date" id="activity-date" required>
-            </div>
-            
-            <div class="form-group">
-                <label>&nbsp;</label>
-                <button type="submit">Agregar Actividad</button>
-            </div>
-        </form>
-        
-        <div class="activity-list" id="activity-list">
-            <h2>📜 Historial de Actividades</h2>
-            <!-- Las actividades se agregarán aquí dinámicamente -->
-        </div>
-    </div>
+    <section>
+      <h2>❤️ Salud</h2>
+      <div class="counter" id="hp">100</div>
+      <div class="actions">
+        <button onclick="addHP()">+10 HP</button>
+        <button onclick="removeHP()">-10 HP</button>
+      </div>
+    </section>
+  </main>
 
-    <script>
-        // Estado del juego
-        const state = {
-            xp: 0,
-            nivel: 1,
-            stats: {
-                fuerza: 0,
-                creatividad: 0,
-                inteligencia: 0,
-                social: 0,
-                belleza: 0
-            },
-            activities: []
-        };
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // 🔐 Sustituye con los datos de tu proyecto
+    const SUPABASE_URL = 'https://tyduhkarprlqxcohmuau.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR5ZHVoa2FycHJscXhjb2htdWF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ0NzY3MjQsImV4cCI6MjA2MDA1MjcyNH0.ZwHUsGu6W49bvFtl5ocUOZ-3_KIBQ6n2ksJNyPjRkvE';
 
-        // Cargar datos guardados
-        function loadData() {
-            const savedData = localStorage.getItem('rpgGameData');
-            if (savedData) {
-                Object.assign(state, JSON.parse(savedData));
-                updateUI();
-            }
-        }
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Guardar datos
-        function saveData() {
-            localStorage.setItem('rpgGameData', JSON.stringify(state));
-        }
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('login-btn');
+    const signupBtn = document.getElementById('signup-btn');
+    const logoutBtn = document.getElementById('logout-btn');
 
-        // Actualizar la interfaz de usuario
-        function updateUI() {
-            // Actualizar nivel y XP
-            document.getElementById('nivel').textContent = state.nivel;
-            document.getElementById('xp').textContent = state.xp;
-            document.getElementById('xp-next-level').textContent = state.nivel * 100;
-            
-            // Calcular porcentaje de XP
-            const xpPercentage = (state.xp / (state.nivel * 100)) * 100;
-            document.getElementById('xp-bar').style.width = `${Math.min(xpPercentage, 100)}%`;
-            
-            // Actualizar estadísticas
-            for (const stat in state.stats) {
-                document.getElementById(stat).textContent = state.stats[stat];
-                
-                // Calcular porcentaje para la barra de progreso (max 100 por stat)
-                const statPercentage = state.stats[stat] % 100;
-                document.getElementById(`${stat}-bar`).style.width = `${statPercentage}%`;
-            }
-            
-            // Actualizar lista de actividades
-            updateActivityList();
-        }
+    let user = null;
+    let gameData = { xp: 0, hp: 100 };
 
-        // Actualizar lista de actividades
-        function updateActivityList() {
-            const activityList = document.getElementById('activity-list');
-            
-            // Limpiar lista excepto el título
-            while (activityList.children.length > 1) {
-                activityList.removeChild(activityList.lastChild);
-            }
-            
-            // Mostrar actividades en orden inverso (más recientes primero)
-            const reversedActivities = [...state.activities].reverse();
-            
-            reversedActivities.forEach(activity => {
-                const activityItem = document.createElement('div');
-                activityItem.className = 'activity-item';
-                
-                const statColors = {
-                    fuerza: 'var(--color-fuerza)',
-                    creatividad: 'var(--color-creatividad)',
-                    inteligencia: 'var(--color-inteligencia)',
-                    social: 'var(--color-social)',
-                    belleza: 'var(--color-belleza)'
-                };
-                
-                activityItem.innerHTML = `
-                    <div class="activity-info">
-                        <strong>${activity.name}</strong><br>
-                        <small>${new Date(activity.date).toLocaleDateString()} • ${getStatName(activity.stat)}</small>
-                    </div>
-                    <div class="activity-xp" style="color: ${statColors[activity.stat]}">
-                        +${activity.xp} XP
-                    </div>
-                `;
-                
-                activityList.appendChild(activityItem);
-            });
-        }
+    // 🧠 Guardar en Supabase
+    async function saveData() {
+      if (!user) return;
+      const { error } = await supabase
+        .from('game_data')
+        .upsert({ user_id: user.id, xp: gameData.xp, hp: gameData.hp });
+      if (error) console.error('Error al guardar:', error.message);
+    }
 
-        // Obtener nombre completo de la estadística
-        function getStatName(statKey) {
-            const statNames = {
-                fuerza: '💪 Fuerza',
-                creatividad: '🎨 Creatividad',
-                inteligencia: '🧠 Inteligencia',
-                social: '🗣️ Social',
-                belleza: '🌟 Belleza'
-            };
-            return statNames[statKey] || statKey;
-        }
+    // 📥 Cargar desde Supabase
+    async function loadData() {
+      if (!user) return;
+      const { data, error } = await supabase
+        .from('game_data')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+      if (data) {
+        gameData = data;
+        updateUI();
+      } else {
+        // Si no existe, crearlo
+        await saveData();
+      }
+    }
 
-        // Calcular nivel basado en XP
-        function calculateLevel() {
-            const newLevel = Math.floor(Math.sqrt(state.xp / 100)) + 1;
-            if (newLevel !== state.nivel) {
-                state.nivel = newLevel;
-                // Aquí podrías agregar efectos de subida de nivel
-            }
-        }
+    function updateUI() {
+      document.getElementById('xp').innerText = gameData.xp;
+      document.getElementById('hp').innerText = gameData.hp;
+    }
 
-        // Manejar envío del formulario
-        document.getElementById('activity-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const activity = {
-                name: document.getElementById('activity-name').value,
-                stat: document.getElementById('activity-stat').value,
-                xp: parseInt(document.getElementById('activity-difficulty').value),
-                date: document.getElementById('activity-date').value
-            };
-            
-            // Validar fecha
-            if (!activity.date) {
-                activity.date = new Date().toISOString().split('T')[0];
-            }
-            
-            // Actualizar estado
-            state.activities.push(activity);
-            state.xp += activity.xp;
-            state.stats[activity.stat] += activity.xp;
-            
-            // Calcular nuevo nivel
-            calculateLevel();
-            
-            // Actualizar UI y guardar
-            updateUI();
-            saveData();
-            
-            // Resetear formulario
-            this.reset();
-            document.getElementById('activity-date').value = new Date().toISOString().split('T')[0];
-        });
+    function addXP() {
+      gameData.xp += 10;
+      updateUI();
+      saveData();
+    }
 
-        // Inicializar
-        document.getElementById('activity-date').value = new Date().toISOString().split('T')[0];
+    function removeXP() {
+      gameData.xp = Math.max(0, gameData.xp - 10);
+      updateUI();
+      saveData();
+    }
+
+    function addHP() {
+      gameData.hp += 10;
+      updateUI();
+      saveData();
+    }
+
+    function removeHP() {
+      gameData.hp = Math.max(0, gameData.hp - 10);
+      updateUI();
+      saveData();
+    }
+
+    // 🔑 Registro
+    signupBtn.addEventListener('click', async () => {
+      const { error } = await supabase.auth.signUp({
+        email: emailInput.value,
+        password: passwordInput.value,
+      });
+      if (error) {
+        alert('Error al registrarse: ' + error.message);
+      } else {
+        alert('¡Registrado! Verifica tu correo antes de iniciar sesión.');
+      }
+    });
+
+    // 🔓 Inicio de sesión
+    loginBtn.addEventListener('click', async () => {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: emailInput.value,
+        password: passwordInput.value,
+      });
+      if (error) {
+        alert('Error: ' + error.message);
+      } else {
+        user = data.user;
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline';
         loadData();
-    </script>
+      }
+    });
+
+    // 🚪 Cerrar sesión
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      user = null;
+      alert('Sesión cerrada');
+      loginBtn.style.display = 'inline';
+      signupBtn.style.display = 'inline';
+      logoutBtn.style.display = 'none';
+      gameData = { xp: 0, hp: 100 };
+      updateUI();
+    });
+
+    // 👀 Ver sesión actual
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        user = session.user;
+        loginBtn.style.display = 'none';
+        signupBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline';
+        loadData();
+      }
+    });
+  </script>
 </body>
 </html>
