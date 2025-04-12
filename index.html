@@ -1,428 +1,213 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Vida, Tu Juego - RPG</title>
-    <style>
-        :root {
-            --color-fuerza: #3498db;
-            --color-creatividad: #2ecc71;
-            --color-inteligencia: #9b59b6;
-            --color-social: #e74c3c;
-            --color-belleza: #e91e63;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #2c3e50;
-            color: white;
-            border-radius: 8px;
-        }
-        
-        h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            width: 200px;
-            margin: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        .stat-name {
-            font-weight: bold;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 1.5em;
-        }
-        
-        .progress-container {
-            height: 20px;
-            background: #ecf0f1;
-            border-radius: 10px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-        
-        .activities-container {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .activity-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        select, input, button {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-        
-        button {
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #1a252f;
-        }
-        
-        .activity-list {
-            border-top: 1px solid #eee;
-            margin-top: 20px;
-            padding-top: 20px;
-        }
-        
-        .activity-item {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .activity-info {
-            flex: 1;
-        }
-        
-        .activity-xp {
-            font-weight: bold;
-            color: #27ae60;
-        }
-        
-        .level-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .level-display {
-            font-size: 2em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .xp-display {
-            margin-top: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            .stats-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .stat-card {
-                width: 80%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Sistema RPG</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e2f;
+      color: #fff;
+      padding: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+    .stars span {
+      font-size: 20px;
+      margin-right: 3px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>🎮 Tu Vida, Tu Juego</h1>
-        <p>Un sistema RPG para gamificar tu vida</p>
-    </header>
 
-    <div class="level-container">
-        <div class="level-display">Nivel: <span id="nivel">1</span></div>
-        <div class="xp-display">XP: <span id="xp">0</span>/<span id="xp-next-level">100</span></div>
-        <div class="progress-container">
-            <div class="progress-bar" id="xp-bar" style="width: 0%; background-color: #27ae60;"></div>
-        </div>
+  <h1>Mi Sistema de RPG</h1>
+
+  <!-- 🔐 LOGIN FIREBASE -->
+  <div id="auth-section">
+    <input id="email" type="email" placeholder="Correo" />
+    <input id="password" type="password" placeholder="Contraseña" />
+    <button id="login-btn">Iniciar Sesión</button>
+    <button id="signup-btn">Crear Cuenta</button>
+    <button id="logout-btn" style="display:none;">Cerrar Sesión</button>
+  </div>
+
+  <!-- 🧙‍♂️ PROGRESO RPG -->
+  <div id="rpg-section" style="display:none;">
+    <p>XP: <span id="xp">0</span></p>
+    <p>Nivel: <span id="nivel">1</span></p>
+
+    <div id="stats">
+      <p>Fuerza: <span id="fuerza">0</span> <span class="stars" id="stars-fuerza"></span></p>
+      <p>Creatividad: <span id="creatividad">0</span> <span class="stars" id="stars-creatividad"></span></p>
+      <p>Inteligencia: <span id="inteligencia">0</span> <span class="stars" id="stars-inteligencia"></span></p>
+      <p>Social: <span id="social">0</span> <span class="stars" id="stars-social"></span></p>
+      <p>Belleza: <span id="belleza">0</span> <span class="stars" id="stars-belleza"></span></p>
     </div>
 
-    <div class="stats-container">
-        <div class="stat-card" style="border-top: 5px solid var(--color-fuerza);">
-            <div class="stat-name">💪 Fuerza</div>
-            <div class="stat-value" id="fuerza">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="fuerza-bar" style="width: 0%; background-color: var(--color-fuerza);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-creatividad);">
-            <div class="stat-name">🎨 Creatividad</div>
-            <div class="stat-value" id="creatividad">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="creatividad-bar" style="width: 0%; background-color: var(--color-creatividad);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-inteligencia);">
-            <div class="stat-name">🧠 Inteligencia</div>
-            <div class="stat-value" id="inteligencia">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="inteligencia-bar" style="width: 0%; background-color: var(--color-inteligencia);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-social);">
-            <div class="stat-name">🗣️ Social</div>
-            <div class="stat-value" id="social">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="social-bar" style="width: 0%; background-color: var(--color-social);"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card" style="border-top: 5px solid var(--color-belleza);">
-            <div class="stat-name">🌟 Belleza</div>
-            <div class="stat-value" id="belleza">0</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="belleza-bar" style="width: 0%; background-color: var(--color-belleza);"></div>
-            </div>
-        </div>
-    </div>
+    <!-- 🎯 FORMULARIO DE ACCIÓN -->
+    <form id="activity-form">
+      <input type="text" id="desc" placeholder="¿Qué hiciste?" required />
+      <input type="number" id="xpInput" placeholder="XP ganada" required />
+      <select id="stat">
+        <option value="fuerza">Fuerza</option>
+        <option value="creatividad">Creatividad</option>
+        <option value="inteligencia">Inteligencia</option>
+        <option value="social">Social</option>
+        <option value="belleza">Belleza</option>
+      </select>
+      <button type="submit">Añadir Actividad</button>
+    </form>
 
-    <div class="activities-container">
-        <h2>📋 Registrar Actividad</h2>
-        <form id="activity-form" class="activity-form">
-            <div class="form-group">
-                <label for="activity-name">Nombre de la actividad</label>
-                <input type="text" id="activity-name" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="activity-stat">Estadística</label>
-                <select id="activity-stat" required>
-                    <option value="fuerza">💪 Fuerza</option>
-                    <option value="creatividad">🎨 Creatividad</option>
-                    <option value="inteligencia">🧠 Inteligencia</option>
-                    <option value="social">🗣️ Social</option>
-                    <option value="belleza">🌟 Belleza</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="activity-difficulty">Dificultad</label>
-                <select id="activity-difficulty" required>
-                    <option value="10">Fácil (10 XP)</option>
-                    <option value="20">Medio (20 XP)</option>
-                    <option value="30">Difícil (30 XP)</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="activity-date">Fecha</label>
-                <input type="date" id="activity-date" required>
-            </div>
-            
-            <div class="form-group">
-                <label>&nbsp;</label>
-                <button type="submit">Agregar Actividad</button>
-            </div>
-        </form>
-        
-        <div class="activity-list" id="activity-list">
-            <h2>📜 Historial de Actividades</h2>
-            <!-- Las actividades se agregarán aquí dinámicamente -->
-        </div>
-    </div>
+    <ul id="activity-list"></ul>
+  </div>
 
-    <script>
-        // Estado del juego
-        const state = {
-            xp: 0,
-            nivel: 1,
-            stats: {
-                fuerza: 0,
-                creatividad: 0,
-                inteligencia: 0,
-                social: 0,
-                belleza: 0
-            },
-            activities: []
-        };
+  <!-- 🔥 FIREBASE + SCRIPT RPG -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import {
+      getAuth, onAuthStateChanged,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import {
+      getFirestore, doc, setDoc, getDoc
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-        // Cargar datos guardados
-        function loadData() {
-            const savedData = localStorage.getItem('rpgGameData');
-            if (savedData) {
-                Object.assign(state, JSON.parse(savedData));
-                updateUI();
-            }
-        }
+    // ⚠️⚠️ CAMBIA ESTO CON TUS DATOS DE FIREBASE ⚠️⚠️
+    const firebaseConfig = {
+      "type": "service_account",
+      "project_id": "rpg-dmon",
+      "private_key_id": "bc480c9e3fe23520dc2444a800cbd1c99c0555bb",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDqOFitKsUP6zng\nj+L/VOr3FXh5qsmB4k1k5YyweSaiBnsclHS97xKPMikLaRNisKEHfqzpQK/M9Ax8\nRSLfO7nYRMbOGjldYx8YdeUnLFnMPSg1Qs/rQJVuxHO8T0ivoO3Jcn6+jD8Kcbes\nxvq3cqkSlLd+PpYyIWsqJvhMJTVOjwST9cxUh2oY4MRF5SqBdof4WM0Fjn8ZZ6Gx\nyNwhenOUzNGZMQN2vqBzgfX+3HHGV95t9TQKZHt+yMu5KKFpDJEFDtzlo9uGmmlF\n8Y+rb5UoCVpJAkBAdiatavwSojGS2Ce5fPbVPhXs+9DVVBO6Gr5xh/6BqoGCpYXf\n2+e3atZLAgMBAAECggEANHkkMMOMu6jE4jEKN470Rx/ZylQ/aehj0290ChNSWuld\nyoTd9LFrdIZV2LcVPz54DSBNp8I0wJOKeorYqa+NTsz1xzXr1SbAUDAVgyW2BoJL\nEEekIj3pXJQJo84VaDeDHmcWyyTLeNEKR9yaTeATzdRgmZl298sx4ZMyfIi3fR4y\nuwH8+sepwDCirTtnxXY2nVL1gAVYjcKStnGDJ3XEL/OGx1ArUYCZOPLQlaAYgzJ1\ns9F5zV+nKO3rYQkDPIWNRxbYkg0O9wzOqE1UcdPVaVdWo7qCnaB2Q4/0/R/jpIo/\nXWHrOZNy86OGsqmU/KLHi2Lp++PqhOZxjRGI3ENtuQKBgQD4VVCyZ/H3eYf9awOu\nkVqlVqizDCqBS39JYwiSBTouqWf73eXy0mKz9L98Q4UlMOlpn2LYsntXnTTuhaai\nqaaYzMdTugq8hazcJKKEGbzku8ibuFyzGlbkwDAOntc/4ewasWuOmRezEn+QTvP1\n72ZbpzMYgMhQ/suE8fSOvRSNwwKBgQDxc30hTbLBtGk/RLbWF3Yswkhe5d+9e2q/\nSF/cCgPBh2D8fng4ovc2Dj8NnSpUfFeJ7OpcjJE/AEEeElRaNMVEnudo7vaRTTaT\nwzMeGb59LR0h3DyVEjEUKFDlSn1ZuPqy1ZG2+8YzlWw/uDXpHVzdOJrGPS2TDmV/\nvTaEBX/k2QKBgDRXHwQLPoePeOcjyAniHv3cLwBV3xuTQwe/tM26BlJRaFZApbex\nOhZ9zmIthQGatoeJjXbo33BO9RoU11NPeIqaFqUCAENN1Wos2ogHOLXpElYn3Hnv\nYkMicr6SIgIX5wCVRnsurz0R+Ar9aRP72lIVAoL2mcHgghrKOGZhWdSrAoGAbtP2\nAc1qWeN30+S0j/zg75aWJYkadB0sWHTeG2A1bSW47O0YPdb/5j4Pzy3u+izA+bxX\nrveOy/5P5X/AXE+QpPjTe6UEZJmujZCx7AUhHNASaTJwVHSvNnNy/mx8sSxpVqEV\na4qR5aeWsoDZrhEeSSTsVkZKnw+io0m0tlDX7bECgYBAk+S8BaWRTvVSSkR7/IzP\nn+199DtOpSBU1eP6CQ/GfVf2b4SyAiduWP8OxiDHbmjZIVa1/sqwzCiKsYVHAm4j\nXB64798lzyGN4Q826OWOTOSdnwFvPkpyFGbkMzd+ByDjRujZzjpTUEVe1WKBSCMk\nPtrhez6DEhpa5+v5qi+A5g==\n-----END PRIVATE KEY-----\n",
+      "client_email": "firebase-adminsdk-fbsvc@rpg-dmon.iam.gserviceaccount.com",
+      "client_id": "114715894476114885543",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40rpg-dmon.iam.gserviceaccount.com",
+      "universe_domain": "googleapis.com"
+    };
 
-        // Guardar datos
-        function saveData() {
-            localStorage.setItem('rpgGameData', JSON.stringify(state));
-        }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-        // Actualizar la interfaz de usuario
-        function updateUI() {
-            // Actualizar nivel y XP
-            document.getElementById('nivel').textContent = state.nivel;
-            document.getElementById('xp').textContent = state.xp;
-            document.getElementById('xp-next-level').textContent = state.nivel * 100;
-            
-            // Calcular porcentaje de XP
-            const xpPercentage = (state.xp / (state.nivel * 100)) * 100;
-            document.getElementById('xp-bar').style.width = `${Math.min(xpPercentage, 100)}%`;
-            
-            // Actualizar estadísticas
-            for (const stat in state.stats) {
-                document.getElementById(stat).textContent = state.stats[stat];
-                
-                // Calcular porcentaje para la barra de progreso (max 100 por stat)
-                const statPercentage = state.stats[stat] % 100;
-                document.getElementById(`${stat}-bar`).style.width = `${statPercentage}%`;
-            }
-            
-            // Actualizar lista de actividades
-            updateActivityList();
-        }
+    const state = {
+      xp: 0,
+      nivel: 1,
+      stats: {
+        fuerza: 0,
+        creatividad: 0,
+        inteligencia: 0,
+        social: 0,
+        belleza: 0
+      },
+      activities: []
+    };
 
-        // Actualizar lista de actividades
-        function updateActivityList() {
-            const activityList = document.getElementById('activity-list');
-            
-            // Limpiar lista excepto el título
-            while (activityList.children.length > 1) {
-                activityList.removeChild(activityList.lastChild);
-            }
-            
-            // Mostrar actividades en orden inverso (más recientes primero)
-            const reversedActivities = [...state.activities].reverse();
-            
-            reversedActivities.forEach(activity => {
-                const activityItem = document.createElement('div');
-                activityItem.className = 'activity-item';
-                
-                const statColors = {
-                    fuerza: 'var(--color-fuerza)',
-                    creatividad: 'var(--color-creatividad)',
-                    inteligencia: 'var(--color-inteligencia)',
-                    social: 'var(--color-social)',
-                    belleza: 'var(--color-belleza)'
-                };
-                
-                activityItem.innerHTML = `
-                    <div class="activity-info">
-                        <strong>${activity.name}</strong><br>
-                        <small>${new Date(activity.date).toLocaleDateString()} • ${getStatName(activity.stat)}</small>
-                    </div>
-                    <div class="activity-xp" style="color: ${statColors[activity.stat]}">
-                        +${activity.xp} XP
-                    </div>
-                `;
-                
-                activityList.appendChild(activityItem);
-            });
-        }
+    function calculateLevel() {
+      state.nivel = Math.floor(state.xp / 100) + 1;
+    }
 
-        // Obtener nombre completo de la estadística
-        function getStatName(statKey) {
-            const statNames = {
-                fuerza: '💪 Fuerza',
-                creatividad: '🎨 Creatividad',
-                inteligencia: '🧠 Inteligencia',
-                social: '🗣️ Social',
-                belleza: '🌟 Belleza'
-            };
-            return statNames[statKey] || statKey;
-        }
+    function updateStars(stat, value) {
+      const container = document.getElementById(`stars-${stat}`);
+      container.innerHTML = '';
+      const starTypes = ['🥉', '🥈', '🥇', '🏆', '🌟'];
+      const totalStars = Math.floor(value / 50);
+      for (let i = 0; i < totalStars; i++) {
+        const type = starTypes[Math.floor(i / 5)] || '🌟';
+        container.innerHTML += `<span>${type}</span>`;
+      }
+    }
 
-        // Calcular nivel basado en XP
-        function calculateLevel() {
-            const newLevel = Math.floor(Math.sqrt(state.xp / 100)) + 1;
-            if (newLevel !== state.nivel) {
-                state.nivel = newLevel;
-                // Aquí podrías agregar efectos de subida de nivel
-            }
-        }
+    function updateUI() {
+      document.getElementById("xp").textContent = state.xp;
+      document.getElementById("nivel").textContent = state.nivel;
 
-        // Manejar envío del formulario
-        document.getElementById('activity-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const activity = {
-                name: document.getElementById('activity-name').value,
-                stat: document.getElementById('activity-stat').value,
-                xp: parseInt(document.getElementById('activity-difficulty').value),
-                date: document.getElementById('activity-date').value
-            };
-            
-            // Validar fecha
-            if (!activity.date) {
-                activity.date = new Date().toISOString().split('T')[0];
-            }
-            
-            // Actualizar estado
-            state.activities.push(activity);
-            state.xp += activity.xp;
-            state.stats[activity.stat] += activity.xp;
-            
-            // Calcular nuevo nivel
-            calculateLevel();
-            
-            // Actualizar UI y guardar
-            updateUI();
-            saveData();
-            
-            // Resetear formulario
-            this.reset();
-            document.getElementById('activity-date').value = new Date().toISOString().split('T')[0];
-        });
+      for (let stat in state.stats) {
+        document.getElementById(stat).textContent = state.stats[stat];
+        updateStars(stat, state.stats[stat]);
+      }
 
-        // Inicializar
-        document.getElementById('activity-date').value = new Date().toISOString().split('T')[0];
-        loadData();
-    </script>
+      const list = document.getElementById("activity-list");
+      list.innerHTML = "";
+      state.activities.forEach(act => {
+        const li = document.createElement("li");
+        li.textContent = `${act.desc} +${act.xp} XP en ${act.stat}`;
+        list.appendChild(li);
+      });
+    }
+
+    async function saveData(user) {
+      if (user) {
+        await setDoc(doc(db, "users", user.uid), state);
+      }
+    }
+
+    async function loadData(user) {
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      if (docSnap.exists()) {
+        Object.assign(state, docSnap.data());
+        updateUI();
+      }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("auth-section").style.display = "none";
+        document.getElementById("rpg-section").style.display = "block";
+        loadData(user);
+      } else {
+        document.getElementById("auth-section").style.display = "block";
+        document.getElementById("rpg-section").style.display = "none";
+      }
+    });
+
+    document.getElementById("login-btn").onclick = () => {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, pass)
+        .catch(err => alert("Error al iniciar sesión: " + err.message));
+    };
+
+    document.getElementById("signup-btn").onclick = () => {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, pass)
+        .catch(err => alert("Error al crear cuenta: " + err.message));
+    };
+
+    document.getElementById("logout-btn").onclick = () => signOut(auth);
+
+    document.getElementById("activity-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const desc = document.getElementById("desc").value;
+      const xp = parseInt(document.getElementById("xpInput").value);
+      const stat = document.getElementById("stat").value;
+
+      state.xp += xp;
+      state.stats[stat] += xp;
+      state.activities.push({ desc, xp, stat });
+
+      calculateLevel();
+      updateUI();
+      saveData(auth.currentUser);
+
+      e.target.reset();
+    });
+
+  </script>
 </body>
 </html>
+
