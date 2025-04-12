@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Vida, Tu Juego - RPG</title>
+    <style>
+        :root {
+            --color-fuerza: #3498db;
+            --color-creatividad: #2ecc71;
+            --color-inteligencia: #9b59b6;
+            --color-social: #e74c3c;
+            --color-belleza: #e91e63;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 8px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            width: 200px;
+            margin: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.5em;
+        }
+        
+        .progress-container {
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .activities-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        
+        button {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1a252f;
+        }
+        
+        .activity-list {
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+        
+        .activity-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .activity-info {
+            flex: 1;
+        }
+        
+        .activity-xp {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        
+        .level-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .level-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .xp-display {
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-card {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎮 Tu Vida, Tu Juego</h1>
+        <p>Un sistema RPG para gamificar tu vida</p>
+    </header>
+
+    <div class="level-container">
+        <div class="level-display">Nivel: <span id="nivel">1</span></div>
+        <div class="xp-display">XP: <span id="xp">0</span>/<span id="xp-next-level">100</span></div>
+        <div class="progress-container">
+            <div class="progress-bar" id="xp-bar" style="width: 0%; background-color: #27ae60;"></div>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card" style="border-top: 5px solid var(--color-fuerza);">
+            <div class="stat-name">💪 Fuerza</div>
+            <div class="stat-value" id="fuerza">0</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="fuerza-bar" style="width: 0%; background-color: var(--color-fuerza);"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card" style="border-top: 5px solid var(--color-creatividad);">
+            <div class="stat-name">🎨 Creatividad</div>
+            <div class="stat-value" id="creatividad">0</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="creatividad-bar" style="width: 0%; background-color: var(--color-creatividad);"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card" style="border-top: 5px solid var(--color-inteligencia);">
+            <div class="stat-name">🧠 Inteligencia</div>
+            <div class="stat-value" id="inteligencia">0</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="inteligencia-bar" style="width: 0%; background-color: var(--color-inteligencia);"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card" style="border-top: 5px solid var(--color-social);">
+            <div class="stat-name">🗣️ Social</div>
+            <div class="stat-value" id="social">0</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="social-bar" style="width: 0%; background-color: var(--color-social);"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card" style="border-top: 5px solid var(--color-belleza);">
+            <div class="stat-name">🌟 Belleza</div>
+            <div class="stat-value" id="belleza">0</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="belleza-bar" style="width: 0%; background-color: var(--color-belleza);"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activities-container">
+        <h2>📋 Registrar Actividad</h2>
+        <form id="activity-form" class="activity-form">
+            <div class="form-group">
+                <label for="activity-name">Nombre de la actividad</label>
+                <input type="text" id="activity-name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="activity-stat">Estadística</label>
+                <select id="activity-stat" required>
+                    <option value="fuerza">💪 Fuerza</option>
+                    <option value="creatividad">🎨 Creatividad</option>
+                    <option value="inteligencia">🧠 Inteligencia</option>
+                    <option value="social">🗣️ Social</option>
+                    <option value="belleza">🌟 Belleza</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="activity-difficulty">Dificultad</label>
+                <select id="activity-difficulty" required>
+                    <option value="10">Fácil (10 XP)</option>
+                    <option value="20">Medio (20 XP)</option>
+                    <option value="30">Difícil (30 XP)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="activity-date">Fecha</label>
+                <input type="date" id="activity-date" required>
+            </div>
+            
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <button type="submit">Agregar Actividad</button>
+            </div>
+        </form>
+        
+        <div class="activity-list" id="activity-list">
+            <h2>📜 Historial de Actividades</h2>
+            <!-- Las actividades se agregarán aquí dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        // Estado del juego
+        const state = {
+            xp: 0,
+            nivel: 1,
+            stats: {
+                fuerza: 0,
+                creatividad: 0,
+                inteligencia: 0,
+                social: 0,
+                belleza: 0
+            },
+            activities: []
+        };
+
+        // Cargar datos guardados
+        function loadData() {
+            const savedData = localStorage.getItem('rpgGameData');
+            if (savedData) {
+                Object.assign(state, JSON.parse(savedData));
+                updateUI();
+            }
+        }
+
+        // Guardar datos
+        function saveData() {
+            localStorage.setItem('rpgGameData', JSON.stringify(state));
+        }
+
+        // Actualizar la interfaz de usuario
+        function updateUI() {
+            // Actualizar nivel y XP
+            document.getElementById('nivel').textContent = state.nivel;
+            document.getElementById('xp').textContent = state.xp;
+            document.getElementById('xp-next-level').textContent = state.nivel * 100;
+            
+            // Calcular porcentaje de XP
+            const xpPercentage = (state.xp / (state.nivel * 100)) * 100;
+            document.getElementById('xp-bar').style.width = `${Math.min(xpPercentage, 100)}%`;
+            
+            // Actualizar estadísticas
+            for (const stat in state.stats) {
+                document.getElementById(stat).textContent = state.stats[stat];
+                
+                // Calcular porcentaje para la barra de progreso (max 100 por stat)
+                const statPercentage = state.stats[stat] % 100;
+                document.getElementById(`${stat}-bar`).style.width = `${statPercentage}%`;
+            }
+            
+            // Actualizar lista de actividades
+            updateActivityList();
+        }
+
+        // Actualizar lista de actividades
+        function updateActivityList() {
+            const activityList = document.getElementById('activity-list');
+            
+            // Limpiar lista excepto el título
+            while (activityList.children.length > 1) {
+                activityList.removeChild(activityList.lastChild);
+            }
+            
+            // Mostrar actividades en orden inverso (más recientes primero)
+            const reversedActivities = [...state.activities].reverse();
+            
+            reversedActivities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                
+                const statColors = {
+                    fuerza: 'var(--color-fuerza)',
+                    creatividad: 'var(--color-creatividad)',
+                    inteligencia: 'var(--color-inteligencia)',
+                    social: 'var(--color-social)',
+                    belleza: 'var(--color-belleza)'
+                };
+                
+                activityItem.innerHTML = `
+                    <div class="activity-info">
+                        <strong>${activity.name}</strong><br>
+                        <small>${new Date(activity.date).toLocaleDateString()} • ${getStatName(activity.stat)}</small>
+                    </div>
+                    <div class="activity-xp" style="color: ${statColors[activity.stat]}">
+                        +${activity.xp} XP
+                    </div>
+                `;
+                
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        // Obtener nombre completo de la estadística
+        function getStatName(statKey) {
+            const statNames = {
+                fuerza: '💪 Fuerza',
+                creatividad: '🎨 Creatividad',
+                inteligencia: '🧠 Inteligencia',
+                social: '🗣️ Social',
+                belleza: '🌟 Belleza'
+            };
+            return statNames[statKey] || statKey;
+        }
+
+        // Calcular nivel basado en XP
+        function calculateLevel() {
+            const newLevel = Math.floor(Math.sqrt(state.xp / 100)) + 1;
+            if (newLevel !== state.nivel) {
+                state.nivel = newLevel;
+                // Aquí podrías agregar efectos de subida de nivel
+            }
+        }
+
+        // Manejar envío del formulario
+        document.getElementById('activity-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const activity = {
+                name: document.getElementById('activity-name').value,
+                stat: document.getElementById('activity-stat').value,
+                xp: parseInt(document.getElementById('activity-difficulty').value),
+                date: document.getElementById('activity-date').value
+            };
+            
+            // Validar fecha
+            if (!activity.date) {
+                activity.date = new Date().toISOString().split('T')[0];
+            }
+            
+            // Actualizar estado
+            state.activities.push(activity);
+            state.xp += activity.xp;
+            state.stats[activity.stat] += activity.xp;
+            
+            // Calcular nuevo nivel
+            calculateLevel();
+            
+            // Actualizar UI y guardar
+            updateUI();
+            saveData();
+            
+            // Resetear formulario
+            this.reset();
+            document.getElementById('activity-date').value = new Date().toISOString().split('T')[0];
+        });
+
+        // Inicializar
+        document.getElementById('activity-date').value = new Date().toISOString().split('T')[0];
+        loadData();
+    </script>
+</body>
+</html>
