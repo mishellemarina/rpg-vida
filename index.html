@@ -1,90 +1,91 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Sistema RPG</title>
+  <title>Tu Vida, Tu Juego - RPG</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #1e1e2f;
-      color: #fff;
+      font-family: sans-serif;
+      background-color: #f5f5f5;
       padding: 20px;
+      max-width: 800px;
+      margin: auto;
     }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .auth-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
     input, button {
-      padding: 10px;
       margin: 5px;
-      border: none;
-      border-radius: 5px;
+      padding: 10px;
+      font-size: 1em;
     }
-    button {
-      background-color: #4caf50;
-      color: white;
-      cursor: pointer;
+
+    .hidden {
+      display: none;
     }
-    .stars span {
-      font-size: 20px;
-      margin-right: 3px;
+
+    .stats-container, .activities-container {
+      display: none;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>🎮 Tu Vida, Tu Juego</h1>
+    <p>Gamifica tu vida como si fuera un RPG</p>
+  </header>
 
-  <h1>Mi Sistema de RPG</h1>
-
-  <!-- 🔐 LOGIN FIREBASE -->
-  <div id="auth-section">
-    <input id="email" type="email" placeholder="Correo" />
-    <input id="password" type="password" placeholder="Contraseña" />
-    <button id="login-btn">Iniciar Sesión</button>
-    <button id="signup-btn">Crear Cuenta</button>
-    <button id="logout-btn" style="display:none;">Cerrar Sesión</button>
+  <div class="auth-container">
+    <input type="email" id="email" placeholder="Correo electrónico" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <br/>
+    <button id="register-btn">Registrarse</button>
+    <button id="login-btn">Iniciar sesión</button>
+    <button id="logout-btn" class="hidden">Cerrar sesión</button>
   </div>
 
-  <!-- 🧙‍♂️ PROGRESO RPG -->
-  <div id="rpg-section" style="display:none;">
-    <p>XP: <span id="xp">0</span></p>
+  <div class="stats-container" id="stats-container">
+    <h2>📊 Tus Estadísticas</h2>
     <p>Nivel: <span id="nivel">1</span></p>
+    <p>XP: <span id="xp">0</span></p>
+    <!-- Aquí podrías añadir más stats -->
+  </div>
 
-    <div id="stats">
-      <p>Fuerza: <span id="fuerza">0</span> <span class="stars" id="stars-fuerza"></span></p>
-      <p>Creatividad: <span id="creatividad">0</span> <span class="stars" id="stars-creatividad"></span></p>
-      <p>Inteligencia: <span id="inteligencia">0</span> <span class="stars" id="stars-inteligencia"></span></p>
-      <p>Social: <span id="social">0</span> <span class="stars" id="stars-social"></span></p>
-      <p>Belleza: <span id="belleza">0</span> <span class="stars" id="stars-belleza"></span></p>
-    </div>
-
-    <!-- 🎯 FORMULARIO DE ACCIÓN -->
+  <div class="activities-container" id="activities-container">
+    <h2>📋 Registrar Actividad</h2>
     <form id="activity-form">
-      <input type="text" id="desc" placeholder="¿Qué hiciste?" required />
-      <input type="number" id="xpInput" placeholder="XP ganada" required />
-      <select id="stat">
+      <input type="text" id="activity-name" placeholder="Actividad" required />
+      <select id="activity-stat">
         <option value="fuerza">Fuerza</option>
         <option value="creatividad">Creatividad</option>
         <option value="inteligencia">Inteligencia</option>
-        <option value="social">Social</option>
-        <option value="belleza">Belleza</option>
       </select>
-      <button type="submit">Añadir Actividad</button>
+      <select id="activity-xp">
+        <option value="10">Fácil (+10 XP)</option>
+        <option value="20">Media (+20 XP)</option>
+        <option value="30">Difícil (+30 XP)</option>
+      </select>
+      <button type="submit">Guardar</button>
     </form>
 
-    <ul id="activity-list"></ul>
+    <div id="activity-list"></div>
   </div>
 
-  <!-- 🔥 FIREBASE + SCRIPT RPG -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import {
-      getAuth, onAuthStateChanged,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-    import {
-      getFirestore, doc, setDoc, getDoc
-    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    // 🔧 CONFIGURACIÓN DE FIREBASE - CAMBIA ESTO
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 
-    // ⚠️⚠️ CAMBIA ESTO CON TUS DATOS DE FIREBASE ⚠️⚠️
     const firebaseConfig = {
       "type": "service_account",
       "project_id": "rpg-dmon",
@@ -103,111 +104,102 @@ DOCTYPE html>
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const state = {
+    // Estado
+    let state = {
       xp: 0,
       nivel: 1,
       stats: {
         fuerza: 0,
         creatividad: 0,
-        inteligencia: 0,
-        social: 0,
-        belleza: 0
+        inteligencia: 0
       },
       activities: []
     };
 
-    function calculateLevel() {
-      state.nivel = Math.floor(state.xp / 100) + 1;
-    }
-
-    function updateStars(stat, value) {
-      const container = document.getElementById(`stars-${stat}`);
-      container.innerHTML = '';
-      const starTypes = ['🥉', '🥈', '🥇', '🏆', '🌟'];
-      const totalStars = Math.floor(value / 50);
-      for (let i = 0; i < totalStars; i++) {
-        const type = starTypes[Math.floor(i / 5)] || '🌟';
-        container.innerHTML += `<span>${type}</span>`;
-      }
-    }
-
     function updateUI() {
-      document.getElementById("xp").textContent = state.xp;
       document.getElementById("nivel").textContent = state.nivel;
-
-      for (let stat in state.stats) {
-        document.getElementById(stat).textContent = state.stats[stat];
-        updateStars(stat, state.stats[stat]);
-      }
+      document.getElementById("xp").textContent = state.xp;
 
       const list = document.getElementById("activity-list");
       list.innerHTML = "";
       state.activities.forEach(act => {
-        const li = document.createElement("li");
-        li.textContent = `${act.desc} +${act.xp} XP en ${act.stat}`;
-        list.appendChild(li);
+        const div = document.createElement("div");
+        div.textContent = `${act.name} [+${act.xp} XP en ${act.stat}]`;
+        list.appendChild(div);
       });
     }
 
-    async function saveData(user) {
-      if (user) {
-        await setDoc(doc(db, "users", user.uid), state);
-      }
-    }
-
-    async function loadData(user) {
-      const docSnap = await getDoc(doc(db, "users", user.uid));
+    async function loadUserData(uid) {
+      const ref = doc(db, "users", uid);
+      const docSnap = await getDoc(ref);
       if (docSnap.exists()) {
-        Object.assign(state, docSnap.data());
+        state = docSnap.data();
         updateUI();
+      } else {
+        await setDoc(ref, state);
       }
     }
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("auth-section").style.display = "none";
-        document.getElementById("rpg-section").style.display = "block";
-        loadData(user);
-      } else {
-        document.getElementById("auth-section").style.display = "block";
-        document.getElementById("rpg-section").style.display = "none";
-      }
-    });
+    async function saveUserData(uid) {
+      const ref = doc(db, "users", uid);
+      await setDoc(ref, state);
+    }
 
-    document.getElementById("login-btn").onclick = () => {
-      const email = document.getElementById("email").value;
-      const pass = document.getElementById("password").value;
-      signInWithEmailAndPassword(auth, email, pass)
-        .catch(err => alert("Error al iniciar sesión: " + err.message));
-    };
-
-    document.getElementById("signup-btn").onclick = () => {
-      const email = document.getElementById("email").value;
-      const pass = document.getElementById("password").value;
-      createUserWithEmailAndPassword(auth, email, pass)
-        .catch(err => alert("Error al crear cuenta: " + err.message));
-    };
-
-    document.getElementById("logout-btn").onclick = () => signOut(auth);
-
-    document.getElementById("activity-form").addEventListener("submit", e => {
+    // Eventos de formulario
+    document.getElementById("activity-form").addEventListener("submit", async e => {
       e.preventDefault();
-      const desc = document.getElementById("desc").value;
-      const xp = parseInt(document.getElementById("xpInput").value);
-      const stat = document.getElementById("stat").value;
+
+      const name = document.getElementById("activity-name").value;
+      const stat = document.getElementById("activity-stat").value;
+      const xp = parseInt(document.getElementById("activity-xp").value);
 
       state.xp += xp;
       state.stats[stat] += xp;
-      state.activities.push({ desc, xp, stat });
+      state.activities.push({ name, stat, xp });
 
-      calculateLevel();
+      state.nivel = Math.floor(Math.sqrt(state.xp / 100)) + 1;
+
       updateUI();
-      saveData(auth.currentUser);
+      const user = auth.currentUser;
+      if (user) await saveUserData(user.uid);
 
       e.target.reset();
     });
 
+    // Autenticación
+    document.getElementById("register-btn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password).catch(alert);
+    });
+
+    document.getElementById("login-btn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password).catch(alert);
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      signOut(auth);
+    });
+
+    // Control de estado de usuario
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        await loadUserData(user.uid);
+        document.getElementById("stats-container").style.display = "block";
+        document.getElementById("activities-container").style.display = "block";
+        document.getElementById("logout-btn").classList.remove("hidden");
+        document.getElementById("login-btn").classList.add("hidden");
+        document.getElementById("register-btn").classList.add("hidden");
+      } else {
+        document.getElementById("stats-container").style.display = "none";
+        document.getElementById("activities-container").style.display = "none";
+        document.getElementById("logout-btn").classList.add("hidden");
+        document.getElementById("login-btn").classList.remove("hidden");
+        document.getElementById("register-btn").classList.remove("hidden");
+      }
+    });
   </script>
 </body>
 </html>
-
